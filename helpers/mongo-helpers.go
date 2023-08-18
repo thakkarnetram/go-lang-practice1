@@ -8,6 +8,7 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/thakkarnetram/go-server1/model"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -52,4 +53,16 @@ func InsertUser(user *model.User) error  {
 	}
 	fmt.Println("User inserted ", user)
 	return nil
+}
+
+func EmailExists(email string ) (bool,error){
+	// filter to find email
+	filter:=bson.M{"email":email}
+	// perform action
+	count,err:=collection1.CountDocuments(context.Background(),filter);
+	if err != nil {
+		log.Fatal(err)
+	}
+	//  return count if big than 0
+	return count>0 , err
 }
