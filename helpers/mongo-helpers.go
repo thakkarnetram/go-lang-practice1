@@ -31,7 +31,7 @@ func Init() {
 	}
 	// setting url
 	url = os.Getenv("MONGO_URI")
-	fmt.Println("URI ", url)
+	// fmt.Println("URI ", url)
 	// client options
 	clientOption:=options.Client().ApplyURI(url)
 	// connection
@@ -55,6 +55,17 @@ func InsertUser(user *model.User) error  {
 	return nil
 }
 
+func FindUser (email string ) (bool,error) {
+	// again filer
+	filter:=bson.M{"email":email}
+	// count 
+	count,err := collection1.CountDocuments(context.Background(),filter)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return count>0 ,err
+}
+
 func EmailExists(email string ) (bool,error){
 	// filter to find email
 	filter:=bson.M{"email":email}
@@ -65,4 +76,15 @@ func EmailExists(email string ) (bool,error){
 	}
 	//  return count if big than 0
 	return count>0 , err
+}
+
+func UserNameExists(username string ) (bool,error) {
+	// filter the names
+	filter:=bson.M{"username":username}
+	// ok,err
+	count,err:= collection1.CountDocuments(context.Background(),filter)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return count > 0 , err
 }
