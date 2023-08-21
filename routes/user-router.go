@@ -10,6 +10,6 @@ func Router() *mux.Router {
 	r:=mux.NewRouter()
 	// def routers
 	r.HandleFunc("/api/v1/signup",usercontroller.RegisterUser).Methods("POST")
-	// r.HandleFunc("/api/v1/login",usercontroller.LoginUser).Methods("POST")
+	r.HandleFunc("/api/v1/login",usercontroller.LoginUser).Methods("POST")
 	return r
 }
